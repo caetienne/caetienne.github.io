@@ -168,6 +168,19 @@
   .skills span.key{background:#0a0a0b;border-color:#0a0a0b;color:#fff;font-weight:700;}
   .edu-item .d{font-weight:700;}
   .certs li::before{background:var(--accent);}
+  @media(max-width:720px){
+    body{padding:12px 10px 72px;}
+    .page{grid-template-columns:1fr;border-radius:24px;}
+    header{flex-direction:column;text-align:center;padding:32px 22px 26px;gap:16px;}
+    header::after{background:linear-gradient(180deg,rgba(10,10,11,.35) 0%,rgba(10,10,11,0) 60%);}
+    h1{font-size:34px;}
+    .role{font-size:14px;}
+    .contact{justify-content:center;}
+    main{padding:18px 14px 8px;}
+    aside{padding:8px 14px 24px;}
+    .job-head,.early-head{flex-direction:column;align-items:flex-start;gap:6px;}
+    .job,.summary,.aside-sec{padding:16px;}
+  }
   @media print{
     .page{border-radius:0;box-shadow:none;background:#fff;}
     header,.job-dates,.skills span.key{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
