@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caroline Etienne, Head of Product CV</title>
+<style>
+  :root{
+    --ink:#1a1f2b;--muted:#5b6472;--line:#e3e1d9;
+    --accent:#7a2e3a;--accent-soft:#f3ebe8;--paper:#fcfbf7;--gold:#9a7b3f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{background:#d9d6cc;}
+  body{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:var(--ink);line-height:1.42;-webkit-font-smoothing:antialiased;
+    padding:34px 16px 72px;
+  }
+  .page{
+    max-width:860px;margin:0 auto 28px;background:var(--paper);
+    box-shadow:0 18px 48px rgba(26,31,43,.18);
+    display:grid;grid-template-columns:minmax(0,1fr) 272px;
+  }
+  header{
+    grid-column:1 / -1;padding:30px 42px 24px;
+    border-bottom:3px solid var(--accent);
+    background:linear-gradient(180deg,#ffffff 0%, var(--paper) 100%);
+    display:flex;align-items:center;gap:26px;
+  }
+  .photo{
+    flex:0 0 auto;width:108px;height:108px;border-radius:50%;overflow:hidden;
+    border:3px solid var(--accent);box-shadow:0 6px 18px rgba(122,46,58,.22);
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,var(--accent) 0%, #9a3b48 100%);
+  }
+  .photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .photo .monogram{font-family:Georgia,serif;font-size:40px;font-weight:700;color:#fff;}
+  .head-text{flex:1 1 auto;min-width:0;}
+  .eyebrow{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px;}
+  h1{font-family:Georgia,"Times New Roman",serif;font-size:40px;line-height:1;font-weight:700;letter-spacing:-.01em;margin-bottom:9px;}
+  .role{font-family:Georgia,serif;font-style:italic;font-size:15px;color:var(--muted);line-height:1.35;}
+  .contact{margin-top:12px;display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12px;color:var(--muted);}
+  .contact span strong{color:var(--ink);font-weight:600;}
+  main{padding:24px 36px 36px;border-right:1px solid var(--line);min-width:0;}
+  aside{padding:24px 24px 36px;background:var(--accent-soft);min-width:0;}
+  h2{font-family:Georgia,serif;font-size:12.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:6px;border-bottom:1.5px solid var(--line);}
+  .section + .section{margin-top:20px;}
+  .summary{font-size:13px;line-height:1.52;color:#333a46;}
+  .job + .job{margin-top:15px;}
+  .job-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .job-title{font-size:14px;font-weight:700;color:var(--ink);}
+  .job-co{font-size:13px;color:var(--accent);font-weight:600;}
+  .job-dates{font-size:11px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .job-meta{font-size:11px;color:var(--muted);font-style:italic;margin-top:1px;}
+  .job-lead{font-size:12.3px;line-height:1.42;color:#3a4150;margin-top:6px;}
+  ul.bullets{list-style:none;margin-top:6px;}
+  ul.bullets li{position:relative;padding-left:16px;margin-bottom:4px;font-size:12.3px;line-height:1.42;color:#3a4150;}
+  ul.bullets li::before{content:"";position:absolute;left:3px;top:7px;width:4.5px;height:4.5px;background:var(--gold);transform:rotate(45deg);}
+  .bullet-group + .bullet-group{margin-top:7px;}
+  .bg-label{font-size:10px;font-weight:700;letter-spacing:.09em;color:var(--gold);text-transform:uppercase;margin-top:7px;margin-bottom:1px;}
+  .bullet-group ul.bullets{margin-top:3px;}
+  .metric{color:var(--accent);font-weight:700;}
+  /* earlier experience compact */
+  .early + .early{margin-top:8px;}
+  .early-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+  .early-role{font-size:12.5px;font-weight:700;color:var(--ink);}
+  .early-role b{color:var(--accent);font-weight:600;}
+  .early-dates{font-size:10.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .early-sub{font-size:11px;color:#5b6472;line-height:1.4;margin-top:1px;}
+  aside h2{color:var(--accent);border-color:#e4d4ce;}
+  .aside-sec + .aside-sec{margin-top:20px;}
+  .skills{display:flex;flex-wrap:wrap;gap:5px;}
+  .skills span{font-size:11px;background:#fff;border:1px solid #e4d4ce;color:#44474f;padding:3.5px 8px;border-radius:40px;}
+  .skills span.key{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600;}
+  .lang{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px;}
+  .lang small{color:var(--muted);}
+  .edu-item{margin-bottom:11px;}
+  .edu-item .d{font-size:12.5px;font-weight:700;color:var(--ink);}
+  .edu-item .s{font-size:11.5px;color:#44474f;}
+  .edu-item .y{font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .certs{font-size:11.5px;color:#44474f;}
+  .certs li{list-style:none;margin-bottom:6px;padding-left:13px;position:relative;}
+  .certs li::before{content:"·";position:absolute;left:1px;color:var(--gold);font-weight:700;}
+  .note{margin:4px auto 0;max-width:860px;font-size:11px;color:#8a8578;text-align:center;font-style:italic;line-height:1.5;}
+  @media(max-width:720px){
+    .page{grid-template-columns:1fr;}
+    main{border-right:none;}
+    header{flex-direction:column;text-align:center;}
+    .contact{justify-content:center;}
+    h1{font-size:34px;}
+  }
+  @media print{
+    @page{size:A4;margin:8mm;}
+    html,body{background:#fff;padding:0;}
+    .page{box-shadow:none;margin:0;max-width:none;display:block;}
+    .note{display:none;}
+    header{padding:14px 22px 12px;gap:16px;break-after:avoid;}
+    .photo{width:76px;height:76px;}
+    h1{font-size:29px;margin-bottom:6px;}
+    .role{font-size:12px;}
+    .contact{margin-top:8px;font-size:10.5px;}
+    main{padding:14px 22px 10px;border-right:none;}
+    aside{padding:2px 22px 12px;background:transparent;column-count:2;column-gap:26px;}
+    h2{margin-bottom:8px;padding-bottom:5px;}
+    .section + .section{margin-top:12px;}
+    .job + .job{margin-top:9px;}
+    .summary{font-size:11.3px;line-height:1.4;}
+    .job-lead{font-size:11.4px;}
+    ul.bullets li{font-size:11.1px;margin-bottom:2.5px;}
+    ul.bullets li::before{top:6px;}
+    .bg-label{margin-top:5px;}
+    .early + .early{margin-top:5px;}
+    .aside-sec{break-inside:avoid;margin-bottom:13px;}
+    .aside-sec + .aside-sec{margin-top:0;}
+    .bullet-group, .early, .edu-item{break-inside:avoid;}
+    .job{break-inside:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="photo">
+      <img src="images/f6cc906d.jpeg" alt="Caroline Etienne" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <span class="monogram" style="display:none;">CE</span>
+    </div>
+    <div class="head-text">
+      <div class="eyebrow">Head of Product · VP Product</div>
+      <h1>Caroline Etienne</h1>
+      <div class="role">Head of Product | Product Strategy &amp; Leadership | Building Products, Teams &amp; Organisations</div>
+      <div class="contact">
+        <span><strong>Paris, France</strong></span>
+        <span>+33 6 71 29 02 02</span>
+        <span>caroline.etienne1@gmail.com</span>
+        <span>linkedin.com/in/carolineetienne</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="section">
+      <h2>Profile</h2>
+      <p class="summary">Product Leader with 15+ years of experience building digital products, teams and Product organisations. Built a Product organisation from scratch, from hiring and developing Product people to establishing Product practices, culture, tools and ways of working. Strong focus on Product strategy, people, UX and close collaboration with Engineering and Design.</p>
+    </div>
+
+    <div class="section">
+      <h2>Experience</h2>
+
+      <div class="job">
+        <div class="job-head">
+          <div><div class="job-title">Head of Product · Direct On-Premise</div><div class="job-co">Deliverect</div></div>
+          <div class="job-dates">Jul 2025 – Present</div>
+        </div>
+        <div class="job-meta">Paris · Hybrid · International Product organisation</div>
+        <div class="bullet-group">
+          <div class="bg-label">Integration &amp; International Scale</div>
+          <ul class="bullets">
+            <li>Integrated Tabesto's Product team into Deliverect's international Product organisation.</li>
+            <li>Supported expansion across Australia, UK, Spain, Portugal, Italy and MENA, including Enterprise customers.</li>
+            <li>Lead Product Strategy and Roadmap for the Direct On-Premise product area.</li>
+            <li>Work closely with Engineering, Design and business teams across international markets.</li>
+          </ul>
+        </div>
+        <div class="bullet-group">
+          <div class="bg-label">AI-assisted Product Building</div>
+          <ul class="bullets">
+            <li>Started defining AI-assisted Product Building practices with Engineering.</li>
+            <li>Designed and built a first initiative using AI-assisted coding, released to production.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <div><div class="job-title">Head of Product · Executive Committee Member</div><div class="job-co">Tabesto (acquired by Deliverect)</div></div>
+          <div class="job-dates">Sep 2021 – Jul 2025</div>
+        </div>
+        <div class="job-meta">Greater Paris · Promoted to Head of Product in 2021, joined ExCo in 2023</div>
+        <p class="job-lead">Built the Product organisation <strong>from scratch</strong>, including the team, methodology, culture, tools, analytics and ways of working.</p>
+        <div class="bullet-group">
+          <div class="bg-label">People &amp; Organisation</div>
+          <ul class="bullets">
+            <li>Hired and developed Product people (PMs and a Product Designer), supporting their progression towards Senior Product Manager.</li>
+            <li>Established Product culture, ways of working and practices across the company.</li>
+          </ul>
+        </div>
+        <div class="bullet-group">
+          <div class="bg-label">Product, Strategy &amp; Operations</div>
+          <ul class="bullets">
+            <li>Implemented Product methodology from Discovery to Delivery and established Product Operations (Productboard, Jira automation, Mixpanel).</li>
+            <li>Designed and rolled out the company-wide OKR methodology; contributed to company strategy as Executive Committee member.</li>
+          </ul>
+        </div>
+        <div class="bullet-group">
+          <div class="bg-label">Product &amp; UX</div>
+          <ul class="bullets">
+            <li>Owned Product Design and designed user flows and interfaces directly in Figma.</li>
+            <li>Launched Europe's <strong>first self-service kiosk using SoftPOS</strong>, cutting payment time by <span class="metric">37%</span>, with a loyalty flow driving <span class="metric">20%</span> of members identified on kiosks.</li>
+            <li>Supported the kiosk product's <span class="metric">20x+</span> growth across 7 markets over 6 years.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <div><div class="job-title">First Product Manager</div><div class="job-co">Tabesto</div></div>
+          <div class="job-dates">Feb 2020 – Sep 2021</div>
+        </div>
+        <div class="job-meta">Paris · Company's first PM hire</div>
+        <ul class="bullets">
+          <li>Defined the Product Vision and owned roadmaps for key product areas, building the foundations of Product methodology, delivery processes and tools.</li>
+          <li>Defined product requirements, user journeys and flows, working closely with Engineering from Discovery to Delivery.</li>
+          <li>Contributed to the launch and evolution of Tabesto's self-service kiosk product.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Earlier Experience · Digital &amp; Project Management</h2>
+
+      <div class="early">
+        <div class="early-head"><div class="early-role">Senior Digital Producer · UX Manager, <b>DISKO</b></div><div class="early-dates">2018 – 2020</div></div>
+        <div class="early-sub">Pierre Frey, Hennessy, Van Cleef &amp; Arpels, Solocal. Awwwards Honorable Mention; Epica 2018 &amp; Stratégies du Luxe Bronze.</div>
+      </div>
+
+      <div class="early">
+        <div class="early-head"><div class="early-role">Digital Group Manager, <b>MKTG</b> (incl. zonefranche)</div><div class="early-dates">2015 – 2018</div></div>
+        <div class="early-sub">GrandOptical, Casinos Barrière, Lesieur / Puget, Menarini, Dodie, Delamaison.</div>
+      </div>
+
+      <div class="early">
+        <div class="early-head"><div class="early-role">Digital &amp; Social Media Project Manager, <b>MEDIAGONG</b> (acq. Leo Burnett · Publicis)</div><div class="early-dates">2012 – 2015</div></div>
+        <div class="early-sub">Samsung, Dessange, Camille Albane, Lindt, Bel.</div>
+      </div>
+
+      <div class="early">
+        <div class="early-head"><div class="early-role">Earlier digital &amp; project management roles</div><div class="early-dates">2009 – 2012</div></div>
+        <div class="early-sub">Opaya Group · La Fabrique à Jeux et à Buzz (apprenticeship) · Hub Score, Los Angeles (internship).</div>
+      </div>
+    </div>
+  </main>
+
+  <aside>
+    <div class="aside-sec">
+      <h2>Expertise</h2>
+      <div class="skills">
+        <span class="key">Product Strategy</span>
+        <span class="key">Product Leadership</span>
+        <span class="key">People Management</span>
+        <span>Discovery &amp; Delivery</span>
+        <span>Product Design</span>
+        <span>Product Operations</span>
+        <span>Product Analytics</span>
+        <span>Roadmapping</span>
+        <span>OKR</span>
+        <span>Agile</span>
+        <span>AI-assisted Product Building</span>
+        <span>POS · Payments · Loyalty</span>
+        <span>B2B &amp; B2C</span>
+        <span>Enterprise</span>
+        <span>International expansion</span>
+      </div>
+    </div>
+
+    <div class="aside-sec">
+      <h2>Tools</h2>
+      <div class="skills">
+        <span>Figma</span><span>Sketch</span><span>Productboard</span><span>Jira</span><span>Confluence</span><span>GitHub</span><span>Mixpanel</span><span>HubSpot</span><span>Claude Code</span><span>Claude Cowork</span>
+      </div>
+    </div>
+
+    <div class="aside-sec">
+      <h2>Languages</h2>
+      <div class="lang"><span>French</span><small>Native</small></div>
+      <div class="lang"><span>English</span><small>Professional (B2+)</small></div>
+    </div>
+
+    <div class="aside-sec">
+      <h2>Education</h2>
+      <div class="edu-item">
+        <div class="d">INSEEC Grande École</div>
+        <div class="s">Master II · Operational Marketing</div>
+        <div class="y">2007 – 2011</div>
+      </div>
+      <div class="edu-item">
+        <div class="d">CY Cergy Paris Université</div>
+        <div class="s">DUT · Business &amp; Marketing</div>
+        <div class="y">2005 – 2007</div>
+      </div>
+      <div class="edu-item">
+        <div class="d">Lycée Camille Claudel</div>
+        <div class="s">Baccalauréat STT · Communication &amp; Business (Mention Bien)</div>
+        <div class="y">2002 – 2005</div>
+      </div>
+    </div>
+
+    <div class="aside-sec">
+      <h2>Certifications</h2>
+      <ul class="certs">
+        <li>Lead Product, Thiga Academy (2022)</li>
+        <li>Management, WILL Academy (2023)</li>
+        <li>UX &amp; Interface Design (Ergonomics, Axure), Ziggourat (2017)</li>
+        <li>English B2.1, YESNYOU (2019)</li>
+      </ul>
+    </div>
+
+    <div class="aside-sec">
+      <h2>Community</h2>
+      <ul class="certs">
+        <li><strong>L'Avant-Garde</strong> — community of 200+ female Product leaders in France (since 2022)</li>
+      </ul>
+    </div>
+  </aside>
+</div>
+<p class="note">Export via Print → Save as PDF (A4). Designed to fit a single page.</p>
+</body>
+</html>
