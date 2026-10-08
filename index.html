@@ -157,8 +157,9 @@
   .bg-label{color:var(--ink);font-weight:800;text-transform:none;font-size:12.5px;letter-spacing:-.01em;margin-top:11px;}
   ul.bullets li::before{background:var(--accent);width:5px;height:5px;top:7px;border-radius:50%;}
   .metric{color:var(--accent);font-weight:800;}
-  .early{background:#fff;border-radius:18px;padding:11px 15px;}
-  .early + .early{margin-top:7px;}
+  .early-list{background:#fff;border-radius:24px;padding:4px 20px;}
+  .early{padding:12px 0;}
+  .early + .early{margin-top:0;border-top:1px solid var(--line);}
   .early-role{font-weight:700;}
   .early-role b{color:var(--ink);font-weight:800;}
   .aside-sec{background:#fff;border-radius:24px;padding:18px 18px 14px;}
@@ -168,6 +169,44 @@
   .skills span.key{background:#0a0a0b;border-color:#0a0a0b;color:#fff;font-weight:700;}
   .edu-item .d{font-weight:700;}
   .certs li::before{background:var(--accent);}
+  /* Spacing system: 30px outer, 16px gutter, 10px between cards, 28px between sections */
+  main{padding:30px 8px 0 30px;}
+  aside{padding:71px 30px 0 8px;}
+  .section + .section{margin-top:28px;}
+  .summary{padding:20px 22px;}
+  .job{padding:20px 22px 16px;}
+  .aside-sec{padding:20px 20px 16px;}
+  aside h2{margin-bottom:10px;}
+  .earlier{grid-column:1 / -1;padding:28px 30px 0;min-width:0;}
+  .early-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px;padding:4px 22px;}
+  .early{padding:14px 0;}
+  .early:nth-child(-n+2){border-top:none;}
+  .kind{grid-column:1 / -1;padding:28px 0 40px;min-width:0;}
+  .kind-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 30px 0 30px;margin-bottom:12px;}
+  .kind-head h2{margin-bottom:0;}
+  .kind-head a{font-size:12px;font-weight:600;color:var(--accent);text-decoration:none;white-space:nowrap;}
+  .kind-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 30px 12px;scroll-padding:0 30px;scrollbar-width:thin;}
+  .kind-card{flex:0 0 340px;scroll-snap-align:start;background:#fff;border-radius:24px;padding:22px 22px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;margin:0;}
+  .kind-card blockquote{font-size:13.5px;line-height:1.6;color:var(--ink);}
+  .kind-who{display:flex;align-items:center;gap:10px;}
+  .kind-avatar{width:36px;height:36px;flex:0 0 auto;border-radius:50%;background:#0a0a0b;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .kind-avatar{width:40px;height:40px;overflow:hidden;}
+  .kind-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+  .kind-name{font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .kind-name a{color:inherit;text-decoration:none;}
+  .kind-rel{font-size:10.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:999px;}
+  .kind-role{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  @media(max-width:720px){
+    .kind{padding:4px 0 26px;}
+    .kind-head{padding:0 14px;}
+    .kind-track{padding:2px 14px 12px;scroll-padding:0 14px;gap:10px;}
+    .kind-card{flex-basis:84%;padding:18px;}
+    .kind-card blockquote{font-size:14px;}
+  }
+  @media print{
+    .kind-track{flex-wrap:wrap;overflow:visible;}
+    .kind-card{flex:1 1 45%;break-inside:avoid;border:1px solid var(--line);}
+  }
   @media(max-width:720px){
     body{padding:12px 10px 72px;}
     .page{grid-template-columns:1fr;border-radius:24px;}
@@ -180,13 +219,46 @@
     aside{padding:8px 14px 24px;}
     .job-head,.early-head{flex-direction:column;align-items:flex-start;gap:6px;}
     .job,.summary,.aside-sec{padding:16px;}
+    .job + .job{margin-top:12px;}
+    .job-head{gap:10px;}
+    .job-head .job-dates{font-size:11.5px;line-height:1.3;padding:6px 12px;}
+    .job-meta{margin-top:8px;line-height:1.45;}
+    .bg-label{margin-top:14px;}
+    ul.bullets li{font-size:13.5px;line-height:1.55;margin-bottom:7px;}
+    .summary{font-size:14px;line-height:1.6;}
+    .early-list{padding:2px 16px;}
+    .early{padding:12px 0;}
+    .early-head{gap:4px;}
+    .early-sub{font-size:12px;line-height:1.5;margin-top:4px;}
+    .contact{gap:8px;}
+    .contact span{padding:7px 14px;}
+    .skills{gap:8px;}
+    .skills span{font-size:12px;padding:6px 12px;}
   }
   @media print{
     .page{border-radius:0;box-shadow:none;background:#fff;}
     header,.job-dates,.skills span.key{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     aside{column-count:2;padding:4px 22px 12px;}
-    .job,.summary,.aside-sec,.early{border:1px solid var(--line);border-radius:14px;}
+    .job,.summary,.aside-sec,.early-list{border:1px solid var(--line);border-radius:14px;}
   }
+  /* Equal-height columns: tops and bottoms of both columns line up */
+  main{display:flex;flex-direction:column;}
+  main > .section:last-child{flex:1 1 auto;display:flex;flex-direction:column;}
+  main > .section:last-child > .job:last-child{flex:1 1 auto;}
+  aside{display:flex;flex-direction:column;}
+  aside > .aside-sec{flex:1 1 auto;}
+  @media print{
+    main,aside,main > .section:last-child{display:block;}
+  }
+  @media(max-width:720px){
+    main{padding:20px 14px 0;}
+    aside{padding:10px 14px 0;}
+    .earlier{padding:22px 14px 0;}
+    .early-list{grid-template-columns:1fr;padding:2px 16px;}
+    .early:nth-child(2){border-top:1px solid var(--line);}
+    .kind{padding:22px 0 30px;}
+  }
+  @media print{ .kind{display:none;} }
 </style>
 </head>
 <body>
@@ -282,30 +354,6 @@
         </ul>
       </div>
     </div>
-
-    <div class="section">
-      <h2>Earlier Experience · Digital &amp; Project Management</h2>
-
-      <div class="early">
-        <div class="early-head"><div class="early-role">Senior Digital Producer · UX Manager, <b>DISKO</b></div><div class="early-dates">2018 – 2020</div></div>
-        <div class="early-sub">Pierre Frey, Hennessy, Van Cleef &amp; Arpels, Solocal. Awwwards Honorable Mention; Epica 2018 &amp; Stratégies du Luxe Bronze.</div>
-      </div>
-
-      <div class="early">
-        <div class="early-head"><div class="early-role">Digital Group Manager, <b>MKTG</b> (incl. zonefranche)</div><div class="early-dates">2015 – 2018</div></div>
-        <div class="early-sub">GrandOptical, Casinos Barrière, Lesieur / Puget, Menarini, Dodie, Delamaison.</div>
-      </div>
-
-      <div class="early">
-        <div class="early-head"><div class="early-role">Digital &amp; Social Media Project Manager, <b>MEDIAGONG</b> (acq. Leo Burnett · Publicis)</div><div class="early-dates">2012 – 2015</div></div>
-        <div class="early-sub">Samsung, Dessange, Camille Albane, Lindt, Bel.</div>
-      </div>
-
-      <div class="early">
-        <div class="early-head"><div class="early-role">Earlier digital &amp; project management roles</div><div class="early-dates">2009 – 2012</div></div>
-        <div class="early-sub">Opaya Group · La Fabrique à Jeux et à Buzz (apprenticeship) · Hub Score, Los Angeles (internship).</div>
-      </div>
-    </div>
   </main>
 
   <aside>
@@ -315,7 +363,6 @@
         <span class="key">Product Strategy</span>
         <span class="key">Product Leadership</span>
         <span class="key">People Management</span>
-        <span>Discovery &amp; Delivery</span>
         <span>Product Design</span>
         <span>Product Operations</span>
         <span>OKR</span>
@@ -328,7 +375,7 @@
     <div class="aside-sec">
       <h2>Tools</h2>
       <div class="skills">
-        <span>Figma</span><span>Sketch</span><span>Productboard</span><span>Jira</span><span>Confluence</span><span>GitHub</span><span>Mixpanel</span><span>HubSpot</span><span>Claude Code</span><span>Claude Cowork</span>
+        <span>Figma</span><span>Productboard</span><span>Jira</span><span>GitHub</span><span>Mixpanel</span><span>Claude Code</span><span>Claude Cowork</span>
       </div>
     </div>
 
@@ -350,11 +397,6 @@
         <div class="s">DUT · Business &amp; Marketing</div>
         <div class="y">2005 – 2007</div>
       </div>
-      <div class="edu-item">
-        <div class="d">Lycée Camille Claudel</div>
-        <div class="s">Baccalauréat STT · Communication &amp; Business (Mention Bien)</div>
-        <div class="y">2002 – 2005</div>
-      </div>
     </div>
 
     <div class="aside-sec">
@@ -363,17 +405,127 @@
         <li>Lead Product, Thiga Academy (2022)</li>
         <li>Management, WILL Academy (2023)</li>
         <li>UX &amp; Interface Design (Ergonomics, Axure), Ziggourat (2017)</li>
-        <li>English B2.1, YESNYOU (2019)</li>
       </ul>
     </div>
 
     <div class="aside-sec">
       <h2>Community</h2>
       <ul class="certs">
-        <li><strong>L'Avant-Garde</strong> — community of 200+ female Product leaders in France (since 2022)</li>
+        <li><strong>L'Avant-Garde</strong>, community of 200+ female Product leaders in France (since 2022)</li>
       </ul>
     </div>
   </aside>
+
+  <section class="earlier">
+    <h2>Earlier Experience</h2>
+    <div class="early-list">
+      <div class="early">
+        <div class="early-head"><div class="early-role">Senior Digital Producer · UX Manager, <b>DISKO</b></div><div class="early-dates">2018 – 2020</div></div>
+        <div class="early-sub">Pierre Frey, Hennessy, Van Cleef &amp; Arpels, Solocal. Awwwards Honorable Mention; Epica 2018 &amp; Stratégies du Luxe Bronze.</div>
+      </div>
+      <div class="early">
+        <div class="early-head"><div class="early-role">Digital Group Manager, <b>MKTG</b> (incl. zonefranche)</div><div class="early-dates">2015 – 2018</div></div>
+        <div class="early-sub">GrandOptical, Casinos Barrière, Lesieur / Puget, Menarini, Dodie, Delamaison.</div>
+      </div>
+      <div class="early">
+        <div class="early-head"><div class="early-role">Digital &amp; Social Media Project Manager, <b>MEDIAGONG</b> (acq. Leo Burnett · Publicis)</div><div class="early-dates">2012 – 2015</div></div>
+        <div class="early-sub">Samsung, Dessange, Camille Albane, Lindt, Bel.</div>
+      </div>
+      <div class="early">
+        <div class="early-head"><div class="early-role">Earlier digital &amp; project management roles</div><div class="early-dates">2009 – 2012</div></div>
+        <div class="early-sub">Opaya Group · La Fabrique à Jeux et à Buzz (apprenticeship) · Hub Score, Los Angeles (internship).</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="kind">
+    <div class="kind-head">
+      <h2>Kind words</h2>
+      <a href="https://www.linkedin.com/in/carolineetienne/details/recommendations/">See on LinkedIn →</a>
+    </div>
+    <div class="kind-track">
+      <figure class="kind-card">
+        <blockquote>“Caroline is an excellent manager. She knows how to lead her teams, guide them, motivate them, help them grow, challenge them, and truly listen. I wish everyone could be managed by someone like her. She is my mentor. She does a great job of defending, explaining, and spreading product culture internally and with our clients. […] She has taken the kiosk department to an impressive level of product maturity.”</blockquote>
+        <figcaption class="kind-who">
+          <div class="kind-avatar"><img src="images/20fb1dfb.jpeg" alt="Delphine Codron"></div>
+          <div>
+            <div class="kind-name"><a href="https://www.linkedin.com/in/delphine-codron/">Delphine Codron</a><span class="kind-rel">Direct report</span></div>
+            <div class="kind-role">Product Manager at Tabesto by Deliverect</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="kind-card">
+        <blockquote>“One of Caroline’s greatest strengths as a leader is her ability to make people and teams grow. She gave me the perfect balance of autonomy, trust, and support […] As a Head of Product, she combines strong strategic thinking with a very pragmatic approach. […] Any team would be incredibly lucky to have her.”</blockquote>
+        <figcaption class="kind-who">
+          <div class="kind-avatar"><img src="images/16dd3301.jpeg" alt="Amel Meradi"></div>
+          <div>
+            <div class="kind-name"><a href="https://www.linkedin.com/in/amel-meradi/">Amel Meradi</a><span class="kind-rel">Direct report</span></div>
+            <div class="kind-role">Senior Product Manager at Tabesto</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="kind-card">
+        <blockquote>“J’ai particulièrement apprécié son sens de l’analyse, sa capacité à prendre le lead sur n’importe quel projet et à embarquer une équipe. La pugnacité, la curiosité et la rigueur de Caroline en font une experte du digital très efficace sur laquelle on peut compter.”</blockquote>
+        <figcaption class="kind-who">
+          <div class="kind-avatar"><img src="images/56cdef1d.jpeg" alt="Eve Lagant"></div>
+          <div>
+            <div class="kind-name"><a href="https://www.linkedin.com/in/evelagant/">Eve Lagant</a><span class="kind-rel">Colleague</span></div>
+            <div class="kind-role">UX Designer at BUT</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="kind-card">
+        <blockquote>“Avec un client exigeant, dont les problématiques sont complexes, Caroline a su faire preuve d’inventivité, de curiosité et d’efficacité ! Toujours force de proposition, c’est également une personne fiable, sur laquelle j’ai pu me reposer en toute confiance dans l’accompagnement digital de notre client.”</blockquote>
+        <figcaption class="kind-who">
+          <div class="kind-avatar"><img src="images/f5cc5ab3.jpeg" alt="Isabelle Poussier"></div>
+          <div>
+            <div class="kind-name"><a href="https://www.linkedin.com/in/isabellepoussier/en/">Isabelle Poussier</a><span class="kind-rel">Senior colleague</span></div>
+            <div class="kind-role">Brand Director</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="kind-card">
+        <blockquote>“C’est un vrai plaisir de manager Caroline ! C’est une excellente chef de projet qui est dotée d’une double expertise […] Curieuse, elle partage volontiers le fruit de ses recherches avec les autres membres de l’agence et a à cœur de transmettre ses connaissances (fort potentiel de management).”</blockquote>
+        <figcaption class="kind-who">
+          <div class="kind-avatar"><img src="images/20fb1dfb.jpeg" alt="Delphine Codron"></div>
+          <div>
+            <div class="kind-name"><a href="https://www.linkedin.com/in/delphine-codron/">Delphine Codron</a><span class="kind-rel">Manager</span></div>
+            <div class="kind-role">Directrice de clientèle</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="kind-card">
+        <blockquote>“Réactive, disponible et à l’écoute, elle nous a fait gagner un temps précieux. Une chef de projet complète qui manie très bien diplomatie et sens commercial.”</blockquote>
+        <figcaption class="kind-who">
+          <div class="kind-avatar"><img src="images/6fa92968.jpeg" alt="Sarven Arslanyan"></div>
+          <div>
+            <div class="kind-name"><a href="https://www.linkedin.com/in/sarven-arslanyan-5a7b6158/en/">Sarven Arslanyan</a><span class="kind-rel">Colleague</span></div>
+            <div class="kind-role">Art Director</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="kind-card">
+        <blockquote>“Caroline est une excellente chef de projet ! Organisée et rigoureuse, elle mène à bien ses projets avec professionnalisme. Elle est très impliquée et saura toujours trouver la solution la plus pertinente.”</blockquote>
+        <figcaption class="kind-who">
+          <div class="kind-avatar"><img src="images/5549d189.jpeg" alt="Aurore Hondarrague"></div>
+          <div>
+            <div class="kind-name"><a href="https://www.linkedin.com/in/aurorehondarrague/">Aurore Hondarrague</a><span class="kind-rel">Manager</span></div>
+            <div class="kind-role">Head of Social Media</div>
+          </div>
+        </figcaption>
+      </figure>
+      <figure class="kind-card">
+        <blockquote>“Caroline est une des plus brillantes personne que j’ai eu le plaisir de rencontrer et avec qui travailler. […] Elle aime les défis, travaille avec passion réelle et donne toujours le meilleur de soi-même.”</blockquote>
+        <figcaption class="kind-who">
+          <div class="kind-avatar"><img src="images/9dad3494.jpeg" alt="Viola Benoit Galgano"></div>
+          <div>
+            <div class="kind-name"><a href="https://www.linkedin.com/in/violagalgano/">Viola Benoit Galgano</a><span class="kind-rel">Manager</span></div>
+            <div class="kind-role">Account Manager Expert Web</div>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
 </div>
 </body>
 </html>
