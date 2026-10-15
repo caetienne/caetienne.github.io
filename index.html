@@ -668,30 +668,129 @@
 (function(f,b){if(!b.__SV){var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){function g(a,d){var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d};a.people.toString=function(){return a.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");for(h=0;h<i.length;h++)g(a,i[h]);b._i.push([e,f,c])};b.__SV=1.2;e=f.createElement("script");e.type="text/javascript";e.async=!0;e.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";g=f.getElementsByTagName("script")[0];g.parentNode.insertBefore(e,g)}})(document,window.mixpanel||[]);
 </script>
 <script>
-/* Mixpanel tracking (EU data residency) */
+/* Mixpanel tracking plan (EU data residency). Events are snake_case.
+   Not applicable on this one-page CV: search_performed, project_list_opened,
+   project_detail_opened, contact_form_opened, contact_form_field_updated,
+   contact_submission_completed (no search, projects or contact form). */
 (function(){
   var MIXPANEL_TOKEN = "3bb38fcc93e0efb412c6f18911f67224";
-  if(!window.mixpanel || MIXPANEL_TOKEN.indexOf("PASTE")===0) return;
+  if(!window.mixpanel) return;
   mixpanel.init(MIXPANEL_TOKEN, {api_host:"https://api-eu.mixpanel.com", track_pageview:false, persistence:"localStorage"});
-  var src = new URLSearchParams(location.search).get("src") || "direct";
-  mixpanel.register({cv_source: src});
-  mixpanel.track("CV Viewed", {source: src});
 
-  document.querySelectorAll('a[href*="linkedin.com"]').forEach(function(a){
-    a.addEventListener("click", function(){ mixpanel.track("LinkedIn Clicked"); });
+  var params = new URLSearchParams(location.search);
+  var PAGE = "cv";
+  function referrerSource(){
+    var s = params.get("utm_source") || params.get("src");
+    if(s) return s.toLowerCase();
+    if(!document.referrer) return "direct";
+    try{
+      var host = new URL(document.referrer).hostname.replace(/^www\./,"");
+      if(host === location.hostname) return "internal";
+      if(/linkedin/.test(host) || host === "lnkd.in") return "linkedin";
+      if(/google\./.test(host)) return "google";
+      return host;
+    }catch(e){ return "direct"; }
+  }
+  var VISIT_KEY = "cv_has_visited";
+  var userState = localStorage.getItem(VISIT_KEY) ? "returning" : "new";
+  localStorage.setItem(VISIT_KEY, "1");
+  var source = referrerSource();
+  var campaign = params.get("utm_campaign");
+
+  var supers = {referrer_source: source, user_state: userState};
+  if(campaign) supers.campaign_id = campaign;
+  mixpanel.register(supers);
+
+  // 1. page_viewed
+  mixpanel.track("page_viewed", {
+    page_name: PAGE, page_type: "landing",
+    landing_url: location.href, referrer_source: source, user_state: userState
   });
-  var track = document.querySelector(".kind-track"), seen = false;
-  if(track) track.addEventListener("scroll", function(){
-    if(!seen){ seen = true; mixpanel.track("Kind Words Scrolled"); }
-  }, {passive:true});
+
+  // Max scroll depth on the page
+  var maxScroll = 0;
+  function updateScroll(){
+    var h = document.documentElement.scrollHeight - innerHeight;
+    var pct = h > 0 ? Math.round(scrollY / h * 100) : 100;
+    if(pct > maxScroll) maxScroll = Math.min(pct, 100);
+  }
+  addEventListener("scroll", updateScroll, {passive:true}); updateScroll();
+
+  // Visible-time tracker for a group of elements
+  function sectionTracker(els, itemSelector){
+    var visible = new Set(), startedAt = null, totalMs = 0, items = new Set(), seen = false;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ visible.add(en.target); seen = true; }
+        else visible.delete(en.target);
+      });
+      if(visible.size && startedAt === null) startedAt = Date.now();
+      if(!visible.size && startedAt !== null){ totalMs += Date.now() - startedAt; startedAt = null; }
+    }, {threshold:.25});
+    els.forEach(function(el){ io.observe(el); });
+    var itemIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) items.add(en.target); });
+    }, {threshold:.6});
+    els.forEach(function(el){ el.querySelectorAll(itemSelector).forEach(function(i){ itemIo.observe(i); }); });
+    return {
+      seen: function(){ return seen; },
+      seconds: function(){ var ms = totalMs + (startedAt !== null ? Date.now() - startedAt : 0); return Math.round(ms / 1000); },
+      itemCount: function(){ return items.size; }
+    };
+  }
+
+  var expHeading = Array.prototype.find.call(document.querySelectorAll("main h2"), function(h){ return h.textContent.trim() === "Experience"; });
+  var expEls = [expHeading && expHeading.parentElement, document.querySelector(".earlier")].filter(Boolean);
+  var skillsEls = [document.querySelector("aside")].filter(Boolean);
+  var experience = "IntersectionObserver" in window ? sectionTracker(expEls, ".job, .early") : null;
+  var skills = "IntersectionObserver" in window ? sectionTracker(skillsEls, ".aside-sec") : null;
+
+  // 5 and 6. Section events, sent once when the visitor leaves (time and depth are final then)
+  var sent = false;
+  function flushSections(){
+    if(sent) return; sent = true; updateScroll();
+    if(experience && experience.seen()) mixpanel.track("experience_section_viewed", {
+      source_page: PAGE,
+      experience_entry_count_viewed: experience.itemCount(),
+      time_on_experience_seconds: experience.seconds(),
+      scroll_depth_percent: maxScroll
+    }, {transport:"sendBeacon"});
+    if(skills && skills.seen()) mixpanel.track("skills_section_viewed", {
+      source_page: PAGE,
+      skill_category_count_viewed: skills.itemCount(),
+      time_on_skills_seconds: skills.seconds()
+    }, {transport:"sendBeacon"});
+  }
+  addEventListener("pagehide", flushSections);
+  document.addEventListener("visibilitychange", function(){ if(document.visibilityState === "hidden") flushSections(); });
+
+  // 7. contact_intent_started
+  function contactMethod(href){
+    if(/^mailto:/.test(href)) return "email_link_click";
+    if(/^tel:/.test(href)) return "phone_link_click";
+    return "social_link_click";
+  }
+  document.querySelectorAll('a[href^="mailto:"], a[href^="tel:"], a[href*="linkedin.com"]').forEach(function(a){
+    a.addEventListener("click", function(){
+      var props = {contact_method: contactMethod(a.getAttribute("href")), source_page: PAGE, cta_text: a.textContent.trim(), user_state: userState};
+      if(campaign) props.campaign_id = campaign;
+      mixpanel.track("contact_intent_started", props, {transport:"sendBeacon"});
+    });
+  });
+
+  // Extra CV-specific events
   var kind = document.querySelector(".kind");
   if(kind && "IntersectionObserver" in window){
-    var io = new IntersectionObserver(function(es){
-      if(es[0].isIntersecting){ mixpanel.track("Kind Words Viewed"); io.disconnect(); }
+    var kio = new IntersectionObserver(function(es){
+      if(es[0].isIntersecting){ mixpanel.track("references_viewed", {source_page: PAGE}); kio.disconnect(); }
     }, {threshold:.4});
-    io.observe(kind);
+    kio.observe(kind);
   }
-  window.addEventListener("beforeprint", function(){ mixpanel.track("CV Printed"); });
+  var kindTrack = document.querySelector(".kind-track"), scrolled = false;
+  if(kindTrack) kindTrack.addEventListener("scroll", function(){
+    if(!scrolled){ scrolled = true; mixpanel.track("references_scrolled", {source_page: PAGE}); }
+  }, {passive:true});
+  addEventListener("beforeprint", function(){ mixpanel.track("cv_printed", {source_page: PAGE}); });
 })();
 </script>
 </body>
