@@ -348,7 +348,7 @@
         <span class="screen-only"><a href="https://www.linkedin.com/in/carolineetienne/" style="text-decoration:none;font-weight:600;">Connect on LinkedIn</a></span>
       </div>
     </div>
-    <a class="qr" href="https://caetienne.github.io" aria-label="Online CV">
+    <a class="qr" href="https://caetienne.github.io/?src=qr" aria-label="Online CV">
       <span class="qr-code" id="qr"></span>
       <span class="qr-cap">Web version<br>with references</span>
     </a>
@@ -604,7 +604,7 @@
 <script>
 /* Minimal QR encoder: byte mode, error correction M, fixed mask 0 */
 (function(){
-  var TEXT = "https://caetienne.github.io";
+  var TEXT = "https://caetienne.github.io/?src=qr";
   var ECC_PER_BLOCK = [0,10,16,26,18,24,16,18,22,22,26];
   var NUM_BLOCKS    = [0,1,1,1,2,2,4,4,4,5,5];
   function rawModules(v){ var r=(16*v+128)*v+64; if(v>=2){var n=Math.floor(v/7)+2; r-=(25*n-10)*n-55; if(v>=7) r-=36;} return r; }
@@ -661,6 +661,34 @@
 
   var path=""; for(y=0;y<size;y++) for(x=0;x<size;x++) if(mod[y][x]) path+="M"+x+","+y+"h1v1h-1z";
   document.getElementById("qr").innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+size+' '+size+'" shape-rendering="crispEdges"><path d="'+path+'" fill="#0a0a0b"/></svg>';
+})();
+</script>
+<script src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"></script>
+<script>
+/* Mixpanel tracking (EU data residency) */
+(function(){
+  var MIXPANEL_TOKEN = "3bb38fcc93e0efb412c6f18911f67224";
+  if(!window.mixpanel || MIXPANEL_TOKEN.indexOf("PASTE")===0) return;
+  mixpanel.init(MIXPANEL_TOKEN, {api_host:"https://api-eu.mixpanel.com", track_pageview:true, persistence:"localStorage"});
+  var src = new URLSearchParams(location.search).get("src") || "direct";
+  mixpanel.register({cv_source: src});
+  mixpanel.track("CV Viewed", {source: src});
+
+  document.querySelectorAll('a[href*="linkedin.com"]').forEach(function(a){
+    a.addEventListener("click", function(){ mixpanel.track("LinkedIn Clicked"); });
+  });
+  var track = document.querySelector(".kind-track"), seen = false;
+  if(track) track.addEventListener("scroll", function(){
+    if(!seen){ seen = true; mixpanel.track("Kind Words Scrolled"); }
+  }, {passive:true});
+  var kind = document.querySelector(".kind");
+  if(kind && "IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      if(es[0].isIntersecting){ mixpanel.track("Kind Words Viewed"); io.disconnect(); }
+    }, {threshold:.4});
+    io.observe(kind);
+  }
+  window.addEventListener("beforeprint", function(){ mixpanel.track("CV Printed"); });
 })();
 </script>
 </body>
